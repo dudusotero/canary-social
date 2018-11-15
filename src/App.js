@@ -1,10 +1,30 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import Navbar from './components/layout/Navbar';
+import React, { Fragment } from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Navbar from './components/navigation/Navbar';
+import Dashboard from './components/dashboard/Dashboard';
+
+const theme = createMuiTheme({
+  spacing: {
+    unit: 16
+  },
+  shape: {
+    borderRadius: 0
+  },
+  typography: {
+    useNextVariants: true
+  },
+  shadows: Array(25).fill('none')
+});
 
 const App = () => (
-  <BrowserRouter>
-    <Navbar />
-  </BrowserRouter>
+  <Fragment>
+    <CssBaseline />
+    <MuiThemeProvider theme={theme}>
+      <Navbar />
+      <Dashboard />
+    </MuiThemeProvider>
+  </Fragment>
 );
+
 export default App;
