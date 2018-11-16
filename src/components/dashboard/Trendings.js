@@ -40,7 +40,7 @@ const Trendings = props => {
   ));
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={0}>
       <Typography variant="h6" gutterBottom className={classes.bolder}>
         Trends for you
       </Typography>

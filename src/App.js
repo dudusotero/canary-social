@@ -16,8 +16,7 @@ const theme = createMuiTheme({
   },
   typography: {
     useNextVariants: true
-  },
-  shadows: Array(25).fill('none')
+  }
 });
 
 const App = () => (

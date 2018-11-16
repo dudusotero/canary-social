@@ -8,17 +8,28 @@ import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { Button } from '@material-ui/core';
+import HomeRounded from '@material-ui/icons/HomeRounded';
+import FlashOnRounded from '@material-ui/icons/FlashOnRounded';
+import NotificationsRounded from '@material-ui/icons/NotificationsRounded';
+import ProfilePicture from '../commons/ProfilePicture';
 
 const styles = theme => ({
   root: {
-    width: '100%'
+    display: 'flex',
+    backgroundColor: theme.palette.grey[200],
+    boxShadow: theme.shadows[1]
+  },
+  container: {
+    width: '100%',
+    maxWidth: 1190,
+    alignSelf: 'center',
+    padding: `0 ${theme.spacing.unit / 2}px`
   },
   grow: {
     flexGrow: 1
@@ -27,45 +38,6 @@ const styles = theme => ({
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block'
-    }
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
-    },
-    marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
-      width: 'auto'
-    }
-  },
-  searchIcon: {
-    width: theme.spacing.unit * 9,
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  inputRoot: {
-    color: 'inherit',
-    width: '100%'
-  },
-  inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 200
     }
   },
   sectionDesktop: {
@@ -79,6 +51,33 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       display: 'none'
     }
+  },
+  bootstrapRoot: {
+    flex: 1,
+    'label + &': {
+      marginTop: theme.spacing.unit * 3
+    }
+  },
+  bootstrapInput: {
+    marginLeft: theme.spacing.unit / 2,
+    borderRadius: 20,
+    backgroundColor: theme.palette.common.white,
+    border: '1px solid #ced4da',
+    fontSize: theme.spacing.unit - 4,
+    fontWeight: 'bolder',
+    padding: `5px ${theme.spacing.unit - 4}px`,
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    '&:focus': {
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
+    },
+    marginRight: theme.spacing.unit
+  },
+  bolder: {
+    fontWeight: 'bolder'
+  },
+  menuIcon: {
+    marginRight: theme.spacing.unit / 2 - 2
   }
 });
 
@@ -158,47 +157,40 @@ class Navbar extends React.Component {
     );
 
     return (
-      <div className={classes.root}>
-        <AppBar position="fixed">
-          <Toolbar>
-            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              Canary Social
-            </Typography>
-            <div className={classes.grow} />
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-              />
-            </div>
+      <React.Fragment>
+        <AppBar position="fixed" className={classes.root}>
+          <Toolbar className={classes.container}>
             <div className={classes.sectionDesktop}>
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              <Button>
+                <HomeRounded className={classes.menuIcon} />
+                <Typography variant="body1" className={classes.bolder}>
+                  Home
+                </Typography>
+              </Button>
+              <Button>
+                <FlashOnRounded />
+                <Typography variant="body1" className={classes.bolder}>
+                  Moments
+                </Typography>
+              </Button>
+              <Button>
+                <NotificationsRounded />
+                <Typography variant="body1" className={classes.bolder}>
+                  Notifications
+                </Typography>
+              </Button>
             </div>
+            <InputBase
+              id="bootstrap-input"
+              classes={{ root: classes.bootstrapRoot, input: classes.bootstrapInput }}
+              placeholder="Search Tweet"
+            />
+            <ProfilePicture
+              src="https://pbs.twimg.com/profile_images/3212607592/436352c4ff500dd5d4427a66d53f9531_400x400.jpeg"
+              size="smaller"
+            />
             <div className={classes.sectionMobile}>
-              <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
+              <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen}>
                 <MoreIcon />
               </IconButton>
             </div>
@@ -206,7 +198,7 @@ class Navbar extends React.Component {
         </AppBar>
         {renderMenu}
         {renderMobileMenu}
-      </div>
+      </React.Fragment>
     );
   }
 }

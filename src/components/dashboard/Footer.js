@@ -53,7 +53,7 @@ const Trendings = props => {
   ));
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={0}>
       <Typography variant="caption" className={classes.link}>
         © 2018 Canary Social
       </Typography>

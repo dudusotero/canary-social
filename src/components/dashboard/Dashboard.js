@@ -13,26 +13,27 @@ const styles = theme => ({
     flexGrow: 1,
     display: 'flex',
     justifyContent: 'center',
-    [theme.breakpoints.up('md')]: {
-      marginTop: theme.spacing.unit + 64
-    }
-  },
-  container: {
-    maxWidth: 1190,
-    [theme.breakpoints.down('sm')]: {
-      marginTop: 72,
-      padding: 0
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing.unit,
+      paddingTop: theme.spacing.unit * 5
     },
     [theme.breakpoints.down('xs')]: {
-      marginTop: 48,
+      marginTop: theme.spacing.unit * 3,
       padding: 0
-    }
+    },
+    backgroundColor: theme.palette.grey[100]
+  },
+  container: {
+    maxWidth: 1190
   },
   item: {
     display: 'flex',
     flexDirection: 'column',
     '& > div': {
-      marginBottom: theme.spacing.unit
+      marginBottom: theme.spacing.unit,
+      '&:last-child': {
+        marginBottom: 0
+      }
     }
   }
 });
