@@ -159,7 +159,7 @@ class Navbar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="sticky">
+        <AppBar position="fixed">
           <Toolbar>
             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
               Canary Social

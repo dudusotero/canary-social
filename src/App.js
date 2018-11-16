@@ -5,6 +5,9 @@ import Navbar from './components/navigation/Navbar';
 import Dashboard from './components/dashboard/Dashboard';
 
 const theme = createMuiTheme({
+  palette: {
+    type: 'light'
+  },
   spacing: {
     unit: 16
   },

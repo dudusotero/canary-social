@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import ProfilePicture from './ProfilePicture';
+import ProfilePicture from '../commons/ProfilePicture';
 
 const styles = theme => ({
   paper: {
@@ -17,7 +17,7 @@ const styles = theme => ({
   container: {
     display: 'flex',
     padding: `${theme.spacing.unit}px 0`,
-    borderBottom: `1px solid ${theme.palette.background.default}`,
+    borderBottom: `1px solid ${theme.palette.divider}`,
     '&:last-child': {
       border: 'none',
       paddingBottom: 0
@@ -57,13 +57,13 @@ const state = {
       name: 'FeraCode',
       avatar:
         'https://media.licdn.com/dms/image/C560BAQFjwPsAmFZ-Cg/company-logo_200_200/0?e=2159024400&v=beta&t=HcLuqK_Vldfk82x5sJIKd1CibRyHrb0m46H8yHrOjfc',
-      user: '@feracode'
+      username: '@feracode'
     },
     {
       id: 2,
       name: 'Dan Abramov',
       avatar: 'https://pbs.twimg.com/profile_images/906557353549598720/oapgW_Fp_400x400.jpg',
-      user: '@dan_abramov'
+      username: '@dan_abramov'
     }
   ]
 };
@@ -82,10 +82,10 @@ const WhoToFollow = props => {
           <Typography className={classes.bolder} noWrap>
             {sugestion.name}
           </Typography>
-          <Typography noWrap>{sugestion.user}</Typography>
+          <Typography noWrap>{sugestion.username}</Typography>
         </div>
         <Button variant="outlined" size="small" color="primary" className={classes.button}>
-          <Typography variant="caption" className={classes.bolder}>
+          <Typography variant="caption" color="primary" className={classes.bolder}>
             Follow
           </Typography>
         </Button>

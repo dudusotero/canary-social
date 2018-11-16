@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import ProfilePicture from './ProfilePicture';
+import ProfilePicture from '../commons/ProfilePicture';
 
 const styles = theme => ({
   paper: {

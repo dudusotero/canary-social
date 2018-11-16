@@ -19,7 +19,7 @@ const state = {
     { id: 1, title: '#hire-me', tweetCount: 17235 },
     { id: 2, title: '#reactjs', tweetCount: 180442 },
     { id: 3, title: '#redux', tweetCount: 64633 },
-    { id: 4, title: '#material-ui', tweetCount: 17235 },
+    { id: 4, title: '#material-ui', tweetCount: 13825 },
     { id: 5, title: '#firebase', tweetCount: 5342 }
   ]
 };
@@ -30,10 +30,12 @@ const Trendings = props => {
 
   const trendsContainer = trends.map(trend => (
     <Fragment key={trend.id}>
-      <Typography variant="subtitle1" color="textSecondary" className={classes.bolder}>
+      <Typography variant="subtitle1" color="primary" className={classes.bolder}>
         {trend.title}
       </Typography>
-      <Typography variant="caption" gutterBottom>{`${trend.tweetCount} Tweets`}</Typography>
+      <Typography variant="caption" color="textSecondary" gutterBottom>
+        {`${trend.tweetCount} Tweets`}
+      </Typography>
     </Fragment>
   ));
 

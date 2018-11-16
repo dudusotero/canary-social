@@ -11,11 +11,15 @@ const styles = theme => ({
   defaultSize: {
     width: 72,
     height: 72,
-    border: `${theme.spacing.unit / 2 - 4}px solid #fff`
+    border: `${theme.spacing.unit / 2 - 4}px solid ${theme.palette.background.paper}`
   },
   smallSize: {
     width: 48,
     height: 48
+  },
+  smallerSize: {
+    width: 32,
+    height: 32
   }
 });
 
@@ -23,6 +27,8 @@ const sizeClass = (size, classes) => {
   switch (size) {
     case 'small':
       return classes.smallSize;
+    case 'smaller':
+      return classes.smallerSize;
     default:
       return classes.defaultSize;
   }
@@ -39,7 +45,7 @@ const ProfilePicture = props => {
 ProfilePicture.propTypes = {
   classes: PropTypes.instanceOf(Object).isRequired,
   src: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(['small', 'default'])
+  size: PropTypes.oneOf(['smaller', 'small', 'default'])
 };
 ProfilePicture.defaultProps = {
   size: 'default'
