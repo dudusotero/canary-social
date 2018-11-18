@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withStyles, InputBase } from '@material-ui/core';
+import { createTweet } from '../../store/actions/tweetActions';
 import ProfilePicture from './ProfilePicture';
 
 const styles = theme => ({
@@ -33,25 +35,60 @@ const styles = theme => ({
   }
 });
 
-const TweetInput = props => {
-  const { classes } = props;
-  return (
-    <div className={classes.container}>
-      <ProfilePicture
-        src="https://pbs.twimg.com/profile_images/3212607592/436352c4ff500dd5d4427a66d53f9531_400x400.jpeg"
-        size="smaller"
-      />
-      <InputBase
-        id="bootstrap-input"
-        classes={{ root: classes.bootstrapRoot, input: classes.bootstrapInput }}
-        placeholder="What's happening?"
-      />
-    </div>
-  );
-};
+class TweetInput extends Component {
+  static propTypes = {
+    classes: PropTypes.instanceOf(Object).isRequired,
+    submitTweet: PropTypes.instanceOf(Function).isRequired
+  };
 
-TweetInput.propTypes = {
-  classes: PropTypes.instanceOf(Object).isRequired
-};
+  state = {
+    text: ''
+  };
 
-export default withStyles(styles)(TweetInput);
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
+
+  handleKeyPress = e => {
+    if (e.key === 'Enter' && e.target.value) {
+      const { submitTweet } = this.props;
+      submitTweet(this.state);
+      this.setState({
+        [e.target.id]: ''
+      });
+    }
+  };
+
+  render() {
+    const { text } = this.state;
+    const { classes } = this.props;
+
+    return (
+      <div className={classes.container}>
+        <ProfilePicture
+          src="https://pbs.twimg.com/profile_images/3212607592/436352c4ff500dd5d4427a66d53f9531_400x400.jpeg"
+          size="smaller"
+        />
+        <InputBase
+          id="text"
+          value={text}
+          classes={{ root: classes.bootstrapRoot, input: classes.bootstrapInput }}
+          placeholder="What's happening?"
+          onChange={this.handleChange}
+          onKeyPress={this.handleKeyPress}
+        />
+      </div>
+    );
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  submitTweet: tweet => dispatch(createTweet(tweet))
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(styles)(TweetInput));

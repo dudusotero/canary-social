@@ -65,6 +65,7 @@ const Tweet = props => {
       <div>
         <ProfilePicture src={tweet.user.avatar} size="small" />
       </div>
+
       <div className={classes.content}>
         <div className={classes.innerContent}>
           <Typography variant="body1" noWrap className={classes.bolder}>
