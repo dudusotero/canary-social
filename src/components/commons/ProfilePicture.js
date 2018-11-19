@@ -6,11 +6,20 @@ import Avatar from '@material-ui/core/Avatar';
 const styles = theme => ({
   avatar: {
     borderRadius: '50%',
-    boxSizing: 'content-box'
+    boxSizing: 'content-box',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.palette.background.paper
   },
   defaultSize: {
     width: 72,
     height: 72,
+    border: `${theme.spacing.unit / 2 - 4}px solid ${theme.palette.background.paper}`
+  },
+  largerSize: {
+    width: 192,
+    height: 192,
     border: `${theme.spacing.unit / 2 - 4}px solid ${theme.palette.background.paper}`
   },
   smallSize: {
@@ -29,14 +38,19 @@ const sizeClass = (size, classes) => {
       return classes.smallSize;
     case 'smaller':
       return classes.smallerSize;
+    case 'larger':
+      return classes.largerSize;
     default:
       return classes.defaultSize;
   }
 };
 
 const ProfilePicture = props => {
-  const { classes, src, size } = props;
+  const { classes, src, size, initialLetter } = props;
 
+  if (!src) {
+    return <div className={`${classes.avatar} ${sizeClass(size, classes)}`}>{initialLetter}</div>;
+  }
   return (
     <Avatar alt="Avatar" src={src} className={`${classes.avatar} ${sizeClass(size, classes)}`} />
   );
@@ -44,11 +58,14 @@ const ProfilePicture = props => {
 
 ProfilePicture.propTypes = {
   classes: PropTypes.instanceOf(Object).isRequired,
-  src: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(['smaller', 'small', 'default'])
+  src: PropTypes.string,
+  initialLetter: PropTypes.string,
+  size: PropTypes.oneOf(['smaller', 'small', 'default', 'larger'])
 };
 ProfilePicture.defaultProps = {
-  size: 'default'
+  size: 'default',
+  src: null,
+  initialLetter: null
 };
 
 export default withStyles(styles)(ProfilePicture);

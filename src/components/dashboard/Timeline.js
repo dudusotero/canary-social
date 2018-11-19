@@ -22,13 +22,19 @@ const styles = theme => ({
 });
 
 const Timeline = props => {
-  const { classes, tweets } = props;
+  const { classes, tweets, users } = props;
 
-  const tweetsList = tweets.map(tweet => (
-    <div className={classes.tweet} key={tweet.id}>
-      <Tweet tweet={tweet} />
-    </div>
-  ));
+  const tweetsList = tweets.map(tweet => {
+    const newTweet = {
+      ...tweet,
+      user: users.find(user => user.id === tweet.userId)
+    };
+    return (
+      <div className={classes.tweet} key={newTweet.id}>
+        <Tweet tweet={newTweet} />
+      </div>
+    );
+  });
 
   return (
     <Paper className={classes.paper} elevation={0}>
@@ -40,18 +46,24 @@ const Timeline = props => {
 
 Timeline.propTypes = {
   classes: PropTypes.instanceOf(Object).isRequired,
+  users: PropTypes.instanceOf(Object),
   tweets: PropTypes.instanceOf(Array)
 };
 Timeline.defaultProps = {
+  users: [],
   tweets: []
 };
 
 const mapStateToProps = state => ({
-  tweets: state.firestore.ordered.tweets
+  tweets: state.firestore.ordered.tweets,
+  users: state.firestore.ordered.users
 });
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: 'tweets', orderBy: ['createdAt', 'desc'] }]),
+  firestoreConnect([
+    { collection: 'tweets', orderBy: ['createdAt', 'desc'] },
+    { collection: 'users' }
+  ]),
   withStyles(styles)
 )(Timeline);

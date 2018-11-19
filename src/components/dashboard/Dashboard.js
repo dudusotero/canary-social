@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { Redirect } from 'react-router-dom';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import ProfileOverview from './ProfileOverview';
 import Trendings from './Trendings';
@@ -39,7 +42,11 @@ const styles = theme => ({
 });
 
 function Dashboard(props) {
-  const { classes } = props;
+  const { classes, auth } = props;
+
+  if (!auth.uid) {
+    return <Redirect to="/signin" />;
+  }
 
   return (
     <div className={classes.root}>
@@ -61,7 +68,13 @@ function Dashboard(props) {
 }
 
 Dashboard.propTypes = {
-  classes: PropTypes.instanceOf(Object).isRequired
+  classes: PropTypes.instanceOf(Object).isRequired,
+  auth: PropTypes.instanceOf(Object).isRequired
 };
 
-export default withStyles(styles)(Dashboard);
+const mapStateToProps = state => ({ auth: state.firebase.auth });
+
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles)
+)(Dashboard);
