@@ -38,7 +38,8 @@ const styles = theme => ({
 class TweetInput extends Component {
   static propTypes = {
     classes: PropTypes.instanceOf(Object).isRequired,
-    submitTweet: PropTypes.instanceOf(Function).isRequired
+    submitTweet: PropTypes.instanceOf(Function).isRequired,
+    profile: PropTypes.instanceOf(Object).isRequired
   };
 
   state = {
@@ -63,14 +64,11 @@ class TweetInput extends Component {
 
   render() {
     const { text } = this.state;
-    const { classes } = this.props;
+    const { classes, profile } = this.props;
 
     return (
       <div className={classes.container}>
-        <ProfilePicture
-          src="https://pbs.twimg.com/profile_images/3212607592/436352c4ff500dd5d4427a66d53f9531_400x400.jpeg"
-          size="smaller"
-        />
+        <ProfilePicture src={profile.avatar} size="smaller" />
         <InputBase
           id="text"
           value={text}
@@ -84,11 +82,13 @@ class TweetInput extends Component {
   }
 }
 
+const mapStateToProps = state => ({ profile: state.firebase.profile });
+
 const mapDispatchToProps = dispatch => ({
   submitTweet: tweet => dispatch(createTweet(tweet))
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(TweetInput));

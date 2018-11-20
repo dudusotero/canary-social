@@ -1,3 +1,6 @@
+import avatar from '../../assets/default-avatar.png';
+import background from '../../assets/default-bg.jpg';
+
 export const signIn = credencials => (dispatch, getState, { getFirebase }) => {
   const firebase = getFirebase();
   firebase
@@ -39,8 +42,8 @@ export const signUp = newUser => (dispatch, getState, { getFirebase, getFirestor
         .set({
           name: newUser.name,
           username: newUser.username,
-          initialLetter: newUser.name[0],
-          avatar: null
+          avatar,
+          background
         })
     )
     .then(() => {

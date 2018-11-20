@@ -60,7 +60,7 @@ const ProfileOverview = props => {
       <div className={classes.profileContent}>
         <div className={classes.contentChildLeft}>
           <div className="profile-picture">
-            <ProfilePicture src={profile.avatar} initialLetter={profile.initialLetter} />
+            <ProfilePicture src={profile.avatar} />
           </div>
         </div>
         <div className={classes.contentChildRight}>

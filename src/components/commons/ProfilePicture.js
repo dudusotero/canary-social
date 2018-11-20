@@ -46,11 +46,8 @@ const sizeClass = (size, classes) => {
 };
 
 const ProfilePicture = props => {
-  const { classes, src, size, initialLetter } = props;
+  const { classes, src, size } = props;
 
-  if (!src) {
-    return <div className={`${classes.avatar} ${sizeClass(size, classes)}`}>{initialLetter}</div>;
-  }
   return (
     <Avatar alt="Avatar" src={src} className={`${classes.avatar} ${sizeClass(size, classes)}`} />
   );
@@ -59,13 +56,11 @@ const ProfilePicture = props => {
 ProfilePicture.propTypes = {
   classes: PropTypes.instanceOf(Object).isRequired,
   src: PropTypes.string,
-  initialLetter: PropTypes.string,
   size: PropTypes.oneOf(['smaller', 'small', 'default', 'larger'])
 };
 ProfilePicture.defaultProps = {
   size: 'default',
-  src: null,
-  initialLetter: null
+  src: null
 };
 
 export default withStyles(styles)(ProfilePicture);

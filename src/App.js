@@ -34,6 +34,7 @@ const App = () => (
           <Route path="/configurations" component={Configurations} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
+          <Route component={Dashboard} />
         </Switch>
       </MuiThemeProvider>
     </Fragment>

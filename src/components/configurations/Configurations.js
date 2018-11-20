@@ -4,10 +4,11 @@ import { withStyles } from '@material-ui/core/styles';
 import { Redirect } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
-import { Paper, TextField, Button, Tooltip } from '@material-ui/core';
-import DoneOutlineOutlined from '@material-ui/icons/DoneOutlineOutlined';
-import ProfilePicture from '../commons/ProfilePicture';
+import { Paper } from '@material-ui/core';
+import updateUser from '../../store/actions/userActions';
+import FormConfigurations from './FormConfigurations';
 
 const styles = theme => ({
   root: {
@@ -40,34 +41,6 @@ const styles = theme => ({
   paper: {
     display: 'flex',
     flexDirection: 'column'
-  },
-  profileContainer: {
-    position: 'relative',
-    marginBottom: 112
-  },
-  profileBg: {
-    width: '100%',
-    height: 256
-  },
-  avatar: {
-    display: 'flex',
-    '& .profile-picture': {
-      display: 'flex',
-      width: '100%',
-      justifyContent: 'center',
-      position: 'absolute',
-      transform: 'translateY(-112px)'
-    }
-  },
-  form: {
-    display: 'flex',
-    '& > div': {
-      flex: 1,
-      margin: theme.spacing.unit
-    },
-    '& > button': {
-      margin: theme.spacing.unit
-    }
   }
 });
 
@@ -75,42 +48,42 @@ class Configurations extends React.Component {
   static propTypes = {
     classes: PropTypes.instanceOf(Object).isRequired,
     auth: PropTypes.instanceOf(Object).isRequired,
-    profile: PropTypes.instanceOf(Object).isRequired
+    profile: PropTypes.instanceOf(Object).isRequired,
+    updateUserMethod: PropTypes.instanceOf(Function).isRequired
   };
 
   state = {
-    name: '',
-    username: '',
-    avatar: '',
-    background: ''
+    modalProfilePicture: { open: false }
   };
 
-  handleChange = e => {
-    this.setState({
-      [e.target.id]: e.target.value
-    });
+  handleUpdateUser = profile => {
+    const { updateUserMethod, history } = this.props;
+    updateUserMethod(profile);
+    history.push('/');
   };
 
-  handleKeyPress = e => {
-    if (e.key === 'Enter' && e.target.value) {
-      const { updateProfile } = this.props;
-      updateProfile(this.state);
-      this.setState({
-        [e.target.id]: ''
-      });
-    }
+  handleOpenProfilePicture = () => {
+    this.setState({ modalProfilePicture: { open: true } });
+  };
+
+  handleCloseProfilePicture = () => {
+    this.setState({ modalProfilePicture: { open: false } });
   };
 
   render() {
-    const { name, username, avatar, background } = this.state;
+    const { modalProfilePicture } = this.state;
     const { classes, auth, profile } = this.props;
-
-    const backgroundStyle = {
-      background: `url(${profile.background}) no-repeat center center / cover`
-    };
 
     if (!auth.uid) {
       return <Redirect to="/signin" />;
+    }
+
+    if (profile.isEmpty) {
+      return (
+        <div className={classes.root}>
+          <CircularProgress />
+        </div>
+      );
     }
 
     return (
@@ -118,23 +91,13 @@ class Configurations extends React.Component {
         <Grid container spacing={16} className={classes.container}>
           <Grid item xs className={classes.item}>
             <Paper elevation={0} className={classes.paper}>
-              <div className={classes.profileContainer}>
-                <div className={classes.profileBg} style={backgroundStyle} />
-                <div className={classes.avatar}>
-                  <div className="profile-picture">
-                    <ProfilePicture src={profile.avatar} size="larger" />
-                  </div>
-                </div>
-              </div>
-              <form className={classes.form} autoComplete="off">
-                <TextField id="name" label="Name" />
-                <TextField id="username" label="Username" />
-                <Tooltip title="Update profile" placement="top">
-                  <Button variant="fab" color="primary">
-                    <DoneOutlineOutlined />
-                  </Button>
-                </Tooltip>
-              </form>
+              <FormConfigurations
+                {...{ profile }}
+                handleUpdateUser={this.handleUpdateUser}
+                modalProfilePicture={modalProfilePicture}
+                handleOpenProfilePicture={this.handleOpenProfilePicture}
+                handleCloseProfilePicture={this.handleCloseProfilePicture}
+              />
             </Paper>
           </Grid>
         </Grid>
@@ -146,7 +109,7 @@ class Configurations extends React.Component {
 const mapStateToProps = state => ({ auth: state.firebase.auth, profile: state.firebase.profile });
 
 const mapDispatchToProps = dispatch => ({
-  updateProfile: user => dispatch()
+  updateUserMethod: user => dispatch(updateUser(user))
 });
 
 export default compose(

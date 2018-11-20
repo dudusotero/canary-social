@@ -78,11 +78,7 @@ const Tweet = props => {
   return (
     <div className={classes.tweet}>
       <div>
-        <ProfilePicture
-          src={tweet.user.avatar}
-          initialLetter={tweet.user.initialLetter}
-          size="small"
-        />
+        <ProfilePicture src={tweet.user.avatar} size="small" />
       </div>
 
       <div className={classes.content}>
